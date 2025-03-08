@@ -14,13 +14,28 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name="id_producto")
     private Long idProducto;
-    private Long idCategoria;
+    //private Long idCategoria; fue remplazado por un objeto categoria
     private String descripcion;
     private String detalle;
     private double precio;
     private int existencias;
     private String rutaImagen;
     private boolean activo;
+    
+    //se agrega la relacion
+    @ManyToOne
+    @JoinColumn(name="id_categoria")
+    private Categoria categoria;//objeto categoria para identificar la llave foranea de Catagoria
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+    
+    
 
     public Long getIdProducto() {
         return idProducto;
@@ -54,13 +69,13 @@ public class Producto implements Serializable {
         this.existencias = existencias;
     }
 
-    public Long getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Long idCategoria) {
-        this.idCategoria = idCategoria;
-    }
+//    public Long getIdCategoria() {
+//        return idCategoria;
+//    }
+//
+//    public void setIdCategoria(Long idCategoria) {
+//        this.idCategoria = idCategoria;
+//    }
 
     public String getDescripcion() {
         return descripcion;
