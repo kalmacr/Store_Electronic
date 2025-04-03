@@ -76,20 +76,28 @@ public class ProyectConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         String[] rutaPermit = rutaPermitService.getRutaPermitsString();
+        // Obtener lista de rutas dinámicas y sus roles asociados desde rutaService
         List<Ruta> rutas = rutaService.getRutas();
 
-        http
+        http // Configurar reglas de autorización
                 .authorizeHttpRequests((request) -> {
+                    // Permitir acceso público a las rutas definidas en 'rutaPermit'
                     request.requestMatchers(rutaPermit).permitAll();
+                    // Configurar rutas dinámicas para requerir roles específicos
                     for (Ruta ruta : rutas) {
                         request.requestMatchers(ruta.getPatron())
-                                .hasRole(ruta.getRolName());
+                                .hasRole(ruta.getRolName());// Asegurar que el usuario tenga el rol necesario
+
                     }
                 }
-                )
+                )// Configurar página de inicio de sesión
                 .formLogin((form) -> form
-                .loginPage("/login").permitAll())
-                .logout((logout) -> logout.permitAll());
+                .loginPage("/login")// Especificar la URL personalizada para el inicio de sesión
+                .permitAll()) // Permitir acceso público a la página de inicio de sesión
+
+                .logout((logout) -> logout // Configurar cierre de sesión 
+                .permitAll());// Permitir a cualquier usuario cerrar sesión
+
         return http.build();
     }
     /* El siguiente método se utiliza para completar la clase no es 
@@ -119,7 +127,13 @@ public class ProyectConfig implements WebMvcConfigurer {
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder build)
             throws Exception {
+    // Configurar el servicio de detalles de usuario (UserDetailsService)
+    // Esto permite a Spring Security obtener los detalles de autenticación de userDetailsService
+    
         build.userDetailsService(userDetailsService)
+    // Configurar el codificador de contraseñas (passwordEncoder)
+    // Se utiliza BCrypt para codificar y verificar contraseñas de manera segura
+                    
                 .passwordEncoder(new BCryptPasswordEncoder());
 
     }

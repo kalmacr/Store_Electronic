@@ -20,6 +20,7 @@ public class Usuario implements Serializable {
     private String password;
     private String nombre;
     private String apellidos;
+    private String correo;
     private String telefono;
     private String rutaImagen;
     private boolean activo;
@@ -97,6 +98,13 @@ public class Usuario implements Serializable {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
 }
