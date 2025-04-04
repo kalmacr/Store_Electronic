@@ -31,7 +31,7 @@
         <section th:fragment="tarjetas" >
             <div class="row row-cols-4 p-2">
                 <div th:each="p : ${productos}"
-                     class="card" style="width: 18rem;">
+                     class="card">
                     <figure>
                         <img th:src="${p.rutaImagen}" 
                              height="200"
@@ -39,6 +39,20 @@
                         <figcaption class="d-flex justify-content-between">
                             <span>₡[[${p.precio}]]</span>
                             <span>([[${p.existencias}]])</span>
+                            <form>
+                                <input type='hidden'
+                                       name='idProducto'
+                                       th:value='${p.idProducto}'/>
+                                <input type='hidden'
+                                       name='existencias'
+                                       th:value='${p.existencias}'/>
+
+                                <button type='button'
+                                        onclick='addCart(this.form)'
+                                        class="btn btn-light">
+                                    <i class="fas fa-cart-arrow-down"></i>
+                                </button>
+                            </form>
                         </figcaption>
                     </figure> 
                     <div class='card-header'>
@@ -48,22 +62,7 @@
                         <p class="card-text">[[${p.detalle}]]</p>
 
                     </div>
-                    <div class='card-footer'>
-                        <form>
-                            <input type='hidden'
-                                   name='idProducto'
-                                   th:value='${p.idProducto}'/>
-                            <input type='hidden'
-                                   name='existencias'
-                                   th:value='${p.existencias}'/>
-
-                            <button type='button'
-                                    onclick='addCart(this.from)'
-                                class="btn btn-primary">
-                                <i class="fas fa-cart-arrow-down"></i>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
 
